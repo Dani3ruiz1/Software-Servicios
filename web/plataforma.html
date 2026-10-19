@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es" data-tipo="plataforma">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14213d">
+<title>Plataforma</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="stylesheet" href="tema.css">
+<link rel="stylesheet" href="panel.css">
+<link rel="stylesheet" href="tablero.css">
+</head>
+<body>
+<div id="entrada" class="entrada" hidden>
+  <div class="caja">
+    <div class="poste" aria-hidden="true"></div>
+    <form id="login" novalidate>
+      <div class="marca-login"><span class="polito" aria-hidden="true"></span><div><h1>Plataforma</h1><p class="sub">Negocios, planes, pagos y métricas</p></div></div>
+      <label class="campo"><span>Correo</span><input name="email" type="email" autocomplete="username" required></label>
+      <label class="campo"><span>Contraseña</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <label class="campo" id="totpCampo" hidden><span>Código de verificación (2FA)</span><input name="totp" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></label>
+      <div id="loginMsg" aria-live="polite"></div>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="app" hidden>
+  <aside class="lateral">
+    <div class="marca-fila"><span class="polito" aria-hidden="true"></span><h1>Plataforma</h1></div>
+    <nav class="tabs" aria-label="Secciones">
+      <button type="button" data-vista="resumen" aria-current="page"><span class="ic" aria-hidden="true">📊</span>Tablero</button>
+      <button type="button" data-vista="negocios"><span class="ic" aria-hidden="true">🏪</span>Negocios</button>
+      <button type="button" data-vista="cobros"><span class="ic" aria-hidden="true">💰</span>Cobros</button>
+      <button type="button" data-vista="planes"><span class="ic" aria-hidden="true">🏷️</span>Planes</button>
+      <button type="button" data-vista="modulos"><span class="ic" aria-hidden="true">🧩</span>Módulos</button>
+      <button type="button" data-vista="usuarios"><span class="ic" aria-hidden="true">👥</span>Usuarios</button>
+      <button type="button" data-vista="auditoria"><span class="ic" aria-hidden="true">📜</span>Auditoría</button>
+      <button type="button" data-vista="salud"><span class="ic" aria-hidden="true">🩺</span>Salud</button>
+    </nav>
+    <div class="pie"><span class="quien" id="quien"></span><button class="mini" id="salir" type="button">Salir</button></div>
+  </aside>
+  <div class="principal">
+    <main class="cuerpo ancho" id="vista-resumen"></main>
+    <main class="cuerpo" id="vista-negocios" hidden></main>
+    <main class="cuerpo" id="vista-planes" hidden></main>
+    <main class="cuerpo ancho" id="vista-cobros" hidden></main>
+    <main class="cuerpo" id="vista-modulos" hidden></main>
+    <main class="cuerpo ancho" id="vista-usuarios" hidden></main>
+    <main class="cuerpo ancho" id="vista-auditoria" hidden></main>
+    <main class="cuerpo ancho" id="vista-salud" hidden></main>
+  </div>
+</div>
+<script src="ui.js"></script>
+<script src="plataforma.js"></script>
+<script src="plataforma-tablero.js"></script>
+<script src="plataforma-paneles.js"></script>
+</body>
+</html>

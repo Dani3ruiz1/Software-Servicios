@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14213d">
+<title>Panel del negocio</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="stylesheet" href="tema.css">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<div id="entrada" class="entrada" hidden>
+  <div class="caja">
+    <div class="poste" aria-hidden="true"></div>
+    <form id="login" novalidate>
+      <div class="marca-login"><span class="polito" aria-hidden="true"></span><div><h1>¡Hola!</h1><p class="sub">Entra a tu negocio</p></div></div>
+      <label class="campo"><span>Código del negocio</span><input name="tenant" value="demo" autocomplete="organization" required></label>
+      <label class="campo"><span>Correo</span><input name="email" type="email" autocomplete="username" required></label>
+      <label class="campo"><span>Contraseña</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <div id="loginMsg" aria-live="polite"></div>
+      <button class="btn" type="submit">Entrar</button>
+      <p class="sub">¿Eres barbero o parte del equipo? <a href="barbero.html">Entra a tu agenda</a></p>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="app" hidden>
+  <aside class="lateral">
+    <div class="marca-fila"><span class="polito" aria-hidden="true"></span><h1 id="negocio">…</h1></div>
+    <nav class="tabs" aria-label="Secciones">
+      <button type="button" data-vista="agenda" aria-current="page"><span class="ic" aria-hidden="true">📅</span>Agenda</button>
+      <button type="button" data-vista="personal"><span class="ic" aria-hidden="true">💈</span>Equipo</button>
+      <button type="button" data-vista="servicios"><span class="ic" aria-hidden="true">🏷️</span>Precios</button>
+      <button type="button" data-vista="clientes"><span class="ic" aria-hidden="true">🙋</span>Clientes</button>
+      <button type="button" data-vista="inventario"><span class="ic" aria-hidden="true">📦</span>Inventario</button>
+      <button type="button" data-vista="caja"><span class="ic" aria-hidden="true">💵</span>Caja</button>
+      <button type="button" data-vista="compartir"><span class="ic" aria-hidden="true">🔗</span>Compartir</button>
+      <button type="button" data-vista="reportes"><span class="ic" aria-hidden="true">📊</span>Reportes</button>
+    </nav>
+    <div class="pie"><span class="quien" id="quien"></span><button class="mini" id="salir" type="button">Salir</button></div>
+  </aside>
+
+  <div class="principal">
+    <div class="banner-soporte" id="bannerSoporte" hidden></div>
+    <main class="cuerpo ancho" id="vista-agenda">
+      <div class="nav">
+        <h2 id="fechaLarga"></h2>
+        <button class="mini" id="ayer" type="button" aria-label="Día anterior">‹</button>
+        <button class="mini" id="hoy" type="button">Hoy</button>
+        <button class="mini" id="manana" type="button" aria-label="Día siguiente">›</button>
+        <button class="btn" id="nuevaCita" type="button">＋ Nueva cita</button>
+        <input type="date" id="fecha" aria-label="Elegir fecha">
+        <div class="segmentos" role="group" aria-label="Cómo ver la agenda">
+          <button type="button" id="modoEquipo" aria-pressed="true">👥 Por empleado</button>
+          <button type="button" id="modoLista" aria-pressed="false">📋 Lista</button>
+        </div>
+      </div>
+      <div class="conteo kpis" id="conteo"></div>
+      <div id="msg" aria-live="polite"></div>
+      <div id="equipoVista"></div>
+      <div class="libreta" id="libreta" hidden></div>
+    </main>
+    <main class="cuerpo" id="vista-personal" hidden></main>
+    <main class="cuerpo" id="vista-servicios" hidden></main>
+    <main class="cuerpo" id="vista-clientes" hidden></main>
+    <main class="cuerpo" id="vista-inventario" hidden></main>
+    <main class="cuerpo" id="vista-caja" hidden></main>
+    <main class="cuerpo" id="vista-compartir" hidden></main>
+    <main class="cuerpo" id="vista-reportes" hidden></main>
+  </div>
+</div>
+
+<dialog id="nueva" class="detalle"><div class="detalle-in" id="nuevaCuerpo"></div></dialog>
+<dialog id="detalle" class="detalle"><div class="detalle-in" id="detalleCuerpo"></div></dialog>
+
+<script src="ui.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script src="panel.js"></script>
+<script src="panel-agenda.js"></script>
+<script src="panel-nueva-cita.js"></script>
+<script src="panel-equipo.js"></script>
+<script src="panel-caja.js"></script>
+<script src="panel-clientes.js"></script>
+<script src="panel-reportes.js"></script>
+<script src="panel-inventario.js"></script>
+<script src="panel-compartir.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# HTTPS automático con Let's Encrypt para {$API_DOMAIN}. El dominio debe apuntar (registro A/AAAA) a esta máquina.
+{$API_DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 2MB
+	}
+	# El webhook de WhatsApp envía JSON pequeño; el límite global ya lo cubre.
+	reverse_proxy api:8000 {
+		health_uri /health
+		health_interval 15s
+		header_up X-Real-IP {remote_host}
+	}
+	log {
+		output stdout
+		format json
+	}
+}

@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[dev]"
+      - name: Lint y seguridad (ruff: incluye reglas de seguridad tipo bandit)
+        run: ruff check app tests
+      - name: Tipos estrictos
+        run: mypy app
+        env: { DATABASE_URL: "postgresql+asyncpg://x:y@localhost/x", REDIS_URL: "redis://localhost", JWT_SECRET: "ci-secret-ci-secret-ci-secret-ci-secret" }
+      - name: Dependencias con vulnerabilidades conocidas
+        run: pip install pip-audit && pip-audit
+
+  pruebas:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: agenda }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    env:
+      PGPASSWORD: postgres
+      DATABASE_URL: postgresql+asyncpg://agenda_app:agenda_app_dev@localhost:5432/agenda
+      MIGRATIONS_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/agenda
+      REDIS_URL: redis://localhost:6379/0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[dev]"
+      - name: Cargar esquema + RLS + semilla de desarrollo
+        run: |
+          for f in schema rls seed; do psql -h localhost -U postgres -d agenda -v ON_ERROR_STOP=1 -q -f sql/$f.sql; done
+      - name: Pruebas (con cobertura)
+        run: pytest -q --cov=app --cov-report=term-missing:skip-covered
+      - name: Pruebas dos veces seguidas (la segunda corre sobre datos sobrantes de la primera)
+        run: pytest -q
+
+  migraciones:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: agenda }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGPASSWORD: postgres
+      MIGRATIONS_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/agenda
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -e ".[dev]"
+      - name: Alembic deja la BD idéntica a sql/schema.sql
+        run: |
+          alembic upgrade head
+          createdb -h localhost -U postgres agenda_sql
+          psql -h localhost -U postgres -d agenda_sql -v ON_ERROR_STOP=1 -q -f sql/schema.sql -f sql/rls.sql
+          pg_dump -h localhost -U postgres -s --no-owner --no-privileges agenda     | grep -v '^--' | sed '/^$/d' > a.sql
+          pg_dump -h localhost -U postgres -s --no-owner --no-privileges agenda_sql | grep -v '^--' | sed '/^$/d' > b.sql
+          diff a.sql b.sql
+      - name: El contrato OpenAPI exportado está al día
+        run: python scripts/export_openapi.py --check
+        env: { DATABASE_URL: "postgresql+asyncpg://x:y@localhost/x", REDIS_URL: "redis://localhost", JWT_SECRET: "ci-secret-ci-secret-ci-secret-ci-secret" }

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14213d">
+<title>Mi agenda</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="stylesheet" href="tema.css">
+<link rel="stylesheet" href="barbero.css">
+</head>
+<body>
+<div id="entrada" class="entrada" hidden>
+  <div class="caja">
+    <div class="poste" aria-hidden="true"></div>
+    <form id="login" novalidate>
+      <div class="marca-login"><span class="polito" aria-hidden="true"></span><div><h1>Mi agenda</h1><p class="sub">Tus turnos del día, en tu celular</p></div></div>
+      <label class="campo"><span>Código del negocio</span><input name="tenant" autocomplete="organization" required placeholder="Te lo da tu administrador"></label>
+      <label class="campo"><span>Tu correo</span><input name="email" type="email" autocomplete="username" required></label>
+      <label class="campo"><span>Tu contraseña</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <div id="loginMsg" aria-live="polite"></div>
+      <button class="btn" type="submit">Entrar a mi agenda</button>
+      <p class="sub">¿Administras el negocio? <a href="panel.html">Entra al panel</a></p>
+    </form>
+  </div>
+</div>
+
+<div id="app" class="mi-dia" hidden>
+  <header class="mi-cab">
+    <div class="mi-marca"><span class="polito" aria-hidden="true"></span>
+      <div><p class="saludo" id="saludo">Hola</p><p class="negocio" id="negocio"></p></div>
+    </div>
+    <div class="mi-acc"><button class="mini" id="actualizar" type="button" aria-label="Actualizar">↻</button><button class="mini" id="salir" type="button">Salir</button></div>
+  </header>
+  <div class="poste-h" aria-hidden="true"></div>
+
+  <main class="mi-cuerpo">
+    <div class="semana-nav">
+      <button class="mini" id="semAnt" type="button" aria-label="Semana anterior">‹</button>
+      <div class="semana" id="semana" role="tablist" aria-label="Días de la semana"></div>
+      <button class="mini" id="semSig" type="button" aria-label="Semana siguiente">›</button>
+    </div>
+    <div id="msg" aria-live="polite"></div>
+    <section id="siguiente"></section>
+    <section id="progreso" class="mi-progreso" hidden></section>
+    <section id="lista" class="mi-lista"></section>
+  </main>
+</div>
+<script src="ui.js"></script>
+<script src="barbero.js"></script>
+</body>
+</html>

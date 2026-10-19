@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff8eb">
+<title>Reservar turno</title>
+<link rel="stylesheet" href="ui.css">
+<link rel="stylesheet" href="tema.css">
+<link rel="stylesheet" href="reserva.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <div class="polito" aria-hidden="true"></div>
+    <div class="hero-txt">
+      <img id="logo" class="logo" alt="" hidden>
+      <p class="saludo" id="saludo" hidden></p>
+      <h1 id="nombre">…</h1>
+      <p class="lema" id="lema">Reserva tu turno en un minuto. Sin llamadas, sin esperas.</p>
+    </div>
+  </div>
+</header>
+<div class="poste-h" aria-hidden="true"></div>
+
+<div class="reserva" id="reserva">
+  <main>
+    <div class="progreso" id="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-label="Avance de tu reserva"><i></i><i></i><i></i><i></i><i></i></div>
+    <div id="pasos"><div class="esqueleto" style="height:6rem"></div><div class="esqueleto" style="height:4rem"></div></div>
+  </main>
+  <aside class="ticket" id="ticket" aria-live="polite">
+    <div class="ticket-cab"><span class="polito mini-polito" aria-hidden="true"></span><h2>Tu turno</h2></div>
+    <dl id="recibo"></dl>
+    <p class="ticket-nota" id="ticketNota"></p>
+  </aside>
+</div>
+
+<div class="barra-movil" id="barraMovil" hidden>
+  <div><b id="bmTitulo"></b><span id="bmSub"></span></div>
+  <strong class="precio" id="bmTotal"></strong>
+</div>
+<script src="ui.js"></script>
+<script src="reservar.js"></script>
+</body>
+</html>

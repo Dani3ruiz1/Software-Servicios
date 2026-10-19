@@ -1,0 +1,57 @@
+# DESARROLLO local (no usar en producción: ver docker-compose.prod.yml). Contiene credenciales de desarrollo a propósito.
+# docker compose up --build
+x-app: &app
+  build: { context: ., args: { INSTALL_DEV: "true" } }       # desarrollo: editable + pytest/ruff/mypy
+  env_file: .env
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+  volumes: ["./app:/srv/app", "./alembic:/srv/alembic", "./sql:/srv/sql", "./tests:/srv/tests"]
+
+services:
+  api:
+    <<: *app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports: ["127.0.0.1:8000:8000"]
+
+  worker:
+    <<: *app
+    command: celery -A app.workers.celery_app worker -l info
+
+  beat:
+    <<: *app
+    command: celery -A app.workers.celery_app beat -l info
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_SUPERUSER}
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Primer arranque con volumen vacío: cargan en orden alfabético
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./sql/rls.sql:/docker-entrypoint-initdb.d/02_rls.sql:ro
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/03_seed.sql:ro
+    ports: ["127.0.0.1:5432:5432"]          # solo accesible desde tu máquina
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_SUPERUSER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports: ["127.0.0.1:5050:80"]
+    depends_on: [postgres]
+    volumes: [pgadmin:/var/lib/pgadmin]
+
+  redis:
+    image: redis:7-alpine
+    volumes: [redisdata:/data]
+    healthcheck: { test: ["CMD", "redis-cli", "ping"], interval: 5s, timeout: 3s, retries: 10 }
+
+volumes: { pgdata: {}, pgadmin: {}, redisdata: {} }

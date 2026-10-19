@@ -1,0 +1,72 @@
+/* Portal del barbero: pensado para el celular, de pie, entre un cliente y otro. Botones grandes, lo importante primero. */
+.marca-login { display: flex; align-items: center; gap: 1.1rem; }
+.marca-login h1 { font-size: 2.1rem; }
+.marca-login .sub { margin: 0; }
+
+.mi-dia { min-height: 100vh; }
+.mi-cab { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1rem .9rem; background: var(--tinta); color: #fff; padding-top: calc(.9rem + env(safe-area-inset-top)); }
+.mi-marca { display: flex; align-items: center; gap: .9rem; min-width: 0; }
+.mi-cab .polito { height: 40px; width: 20px; border-color: #fff; }
+.saludo { font: 800 1.3rem var(--display); line-height: 1.1; }
+.negocio { color: #b9c4dd; font-size: .88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mi-acc { display: flex; gap: .5rem; flex: none; }
+.mi-cab .mini { background: rgba(255, 255, 255, .12); color: #fff; border-color: rgba(255, 255, 255, .55); box-shadow: none; }
+.mi-cuerpo { max-width: 46rem; margin: 0 auto; padding: 1.1rem 1rem calc(4rem + env(safe-area-inset-bottom)); }
+
+/* ---- semana */
+.semana-nav { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.1rem; }
+.semana { flex: 1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .35rem; }
+.sem-dia { appearance: none; cursor: pointer; display: grid; justify-items: center; gap: 0; padding: .45rem 0 .4rem; background: var(--superficie); border: 2px solid var(--tinta); border-radius: 12px; font-weight: 700; position: relative; transition: transform .15s var(--rebote), background .15s; }
+.sem-dia small { font-size: .68rem; color: var(--tinta-suave); text-transform: capitalize; }
+.sem-dia b { font: 800 1.15rem/1.15 var(--display); }
+.sem-dia i { font-style: normal; min-width: 1.15rem; height: 1.15rem; padding: 0 .25rem; display: grid; place-items: center; font-size: .68rem; font-weight: 800; border-radius: 99px; background: var(--tinta); color: var(--fondo); margin-top: .1rem; }
+.sem-dia i.cero { background: transparent; color: var(--tinta-suave); border: 1.5px dashed var(--linea); }
+.sem-dia:hover { transform: translateY(-2px); }
+.sem-dia[aria-selected="true"] { background: var(--sol); box-shadow: var(--sombra-chica); transform: translateY(-2px); }
+.sem-dia.hoy::after { content: ""; position: absolute; top: -.4rem; right: -.2rem; width: .7rem; height: .7rem; background: var(--acento); border: 2px solid var(--tinta); border-radius: 50%; }
+
+/* ---- siguiente turno (la tarjeta grande) */
+.hero-turno { background: var(--marca); color: var(--on-marca); border: 2px solid var(--tinta); border-radius: 20px; box-shadow: 6px 6px 0 var(--tinta); padding: 1.2rem 1.2rem 1.3rem; margin-bottom: 1.3rem; display: grid; gap: .7rem; position: relative; overflow: hidden; animation: entra .4s var(--rebote); }
+.hero-turno::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 10px; background: var(--poste); background-size: 68px 68px; animation: gira-h 6s linear infinite; border-bottom: 2px solid var(--tinta); }
+.hero-turno .etq { margin-top: .6rem; font-weight: 700; font-size: .9rem; opacity: .9; }
+.hero-turno .cuando { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
+.hero-turno .hora-grande { font: 800 clamp(2.4rem, 11vw, 3.4rem)/1 var(--display); letter-spacing: -.02em; }
+.hero-turno .faltan { font-weight: 800; background: var(--sol); color: var(--on-sol); padding: .2rem .7rem; border: 2px solid var(--tinta); border-radius: 99px; font-size: .95rem; }
+.hero-turno .faltan.ya { background: var(--acento); color: var(--on-acento); }
+.hero-turno h2 { font-size: 1.6rem; color: inherit; }
+.hero-turno .serv { opacity: .92; }
+.hero-turno .acc { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: .3rem; }
+.hero-turno .acc .btn-grande { grid-column: 1 / -1; font-size: 1.15rem; padding: 1rem; background: var(--sol); color: var(--on-sol); }
+.hero-turno .acc .mini { justify-content: center; padding: .7rem; font-size: .95rem; }
+.hero-vacio { text-align: center; padding: 2rem 1rem; margin-bottom: 1.3rem; border: 2px dashed var(--tinta); border-radius: 20px; background: var(--superficie); }
+.hero-vacio .gran { font-size: 2.6rem; }
+.hero-vacio h2 { margin: .3rem 0; }
+
+/* ---- avance del día */
+.mi-progreso { display: grid; gap: .4rem; margin-bottom: 1.1rem; font-weight: 700; font-size: .92rem; }
+.mi-progreso .barra-p { display: flex; gap: .3rem; }
+.mi-progreso .barra-p i { flex: 1; height: 12px; border: 2px solid var(--tinta); border-radius: 99px; background: var(--superficie); transition: background .4s; }
+.mi-progreso .barra-p i.ok { background: var(--ok); }
+.mi-progreso .barra-p i.en { background: var(--sol); }
+
+/* ---- lista de turnos */
+.mi-lista { display: grid; gap: .7rem; }
+.turno { display: grid; grid-template-columns: 4.6rem 1fr; gap: .8rem; padding: .85rem .9rem; background: var(--superficie); border: 2px solid var(--tinta); border-radius: 16px; box-shadow: var(--sombra-chica); text-align: left; appearance: none; cursor: pointer; width: 100%; transition: transform .15s var(--rebote), box-shadow .15s; animation: entra .3s var(--rebote) backwards; }
+.turno:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--tinta); }
+.turno .hr { font: 800 1.3rem/1.05 var(--display); font-variant-numeric: tabular-nums; }
+.turno .hr small { display: block; font: 500 .72rem var(--texto); color: var(--tinta-suave); margin-top: .15rem; }
+.turno .cu { min-width: 0; display: grid; gap: .1rem; }
+.turno .cu b { font-size: 1.05rem; }
+.turno .cu span { color: var(--tinta-suave); font-size: .9rem; }
+.turno .cu .estado { justify-self: start; margin-top: .25rem; }
+.turno.listo { opacity: .55; background: var(--ok-claro); }
+.turno.cancelado { opacity: .5; background: transparent; border-style: dashed; box-shadow: none; }
+.turno.cancelado b { text-decoration: line-through; }
+.turno.ahora-t { background: var(--sol); box-shadow: var(--sombra); }
+.turno .panelito { grid-column: 1 / -1; box-shadow: none; background: var(--fondo); margin: .4rem 0 0; cursor: default; }
+.turno .envolver { flex-wrap: wrap; }
+.hora-sep { font: 700 .82rem var(--texto); color: var(--tinta-suave); display: flex; align-items: center; gap: .6rem; margin: .5rem 0 0; }
+.hora-sep::after { content: ""; flex: 1; border-top: 2px dashed var(--linea); }
+.libre-t { color: var(--tinta-suave); font-size: .9rem; text-align: center; padding: .1rem 0; }
+
+@media (min-width: 700px) { .mi-cuerpo { padding-top: 1.6rem; } .hero-turno .acc { grid-template-columns: repeat(3, 1fr); } .hero-turno .acc .btn-grande { grid-column: 1 / -1; } }

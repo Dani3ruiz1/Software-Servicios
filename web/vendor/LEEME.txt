@@ -1,0 +1,5 @@
+qrcode.js — "QR Code Generator for JavaScript" (qrcode-generator) 1.4.4
+Autor: Kazuhiko Arase · Licencia: MIT · Origen: https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js
+SHA-256: 18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780
+Revisado al incorporarlo: sin llamadas de red, sin eval ni código dinámico. Genera el QR en el navegador; no envía el enlace a ningún servicio.
+Para actualizar: descargar la versión nueva, revisarla igual y cambiar este archivo.
